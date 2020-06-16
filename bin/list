@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+export serviceName=$1
+export servicePort=$2
+
+echo "Running services:"
+ps -x |grep python |grep http_server
