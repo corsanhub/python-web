@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+if test -z "$SERVICE_BIN"; then
+  export SERVICE_BIN="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+fi
+
+if test -z "$SERVICE_HOME"; then
+  export SERVICE_HOME=$(dirname $SERVICE_BIN)
+fi
+
+echo "SERVICE_HOME: $SERVICE_HOME"
+
+VENV_DIR="$SERVICE_HOME/venv"
+if [ -d "$DIR" ]; then
+  echo "Python virtual environmet already exists."
+
+  source $SERVICE_HOME/venv/bin/activate
+else
+  echo "Creating Python virtual environmet ..."
+
+  cd $SERVICE_HOME
+  python3 -m venv venv
+
+  source $SERVICE_HOME/venv/bin/activate
+  pip install --upgrade pip
+fi
+
+pip install -r requirements.txt
+
+nohup python $SERVICE_HOME/http_server.py $@ &
+
