@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+export serverName=$1
+export serverPort=$2
+
+echo "Stopping server: $serverName running on port: $serverPort ..."
+kill $(ps -x |grep python |grep $serverName |grep $serverPort | awk '{print $1}')
